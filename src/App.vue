@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import convert from 'xml-js';
-import Datepicker from '@vuepic/vue-datepicker';
-import '@vuepic/vue-datepicker/dist/main.css';
+import DatePicker from 'vue-datepicker-next';
+import 'vue-datepicker-next/index.css';
 
 const HEALTH_DATA_TYPES = [
   'HKQuantityTypeIdentifierHeartRate',
@@ -62,9 +62,9 @@ function startHealthDataXMLParser() {
       if (healthType != healtDataType.value || healthDate.getTime() <= startDate.getTime() || healthDate.getTime() >= endDate.getTime()) continue;
       result.value.push(healthValue)
     }
-    
+
     mean.value = calculateMean(result.value) as any;
-    
+
     console.log('HEALTH DATA \n', exportedHealthData);
     console.log('FILTERED RESULTS \n', result.value);
     console.log('MEAN \n', mean.value)
@@ -89,13 +89,13 @@ function startHealthDataXMLParser() {
     <p>File</p>
     <input type="file" @change="onFileSelected">
     <p>Date Range</p>
-    <Datepicker v-model="dateRange" range />
+    <date-picker v-model:value="dateRange" range confirm="true" type="datetime"></date-picker>
     <p>Health Data Type</p>
     <select v-model="healtDataType">
       <option v-for="type in HEALTH_DATA_TYPES" :value="type">{{ type }}</option>
     </select>
     <button @click="startHealthDataXMLParser">Start</button>
-    <p>Calculated Mean: {{ mean? mean: 'null' }}</p>
+    <p>Calculated Mean: {{ mean ? mean : 'null' }}</p>
 
   </main>
 </template>
